@@ -1,0 +1,66 @@
+/* A binary tree node
+class Node {
+    public int data;
+    public Node left;
+    public Node right;
+
+    public Node(int val) {
+        data = val;
+        left = null;
+        right = null;
+    }
+}
+*/
+
+class Solution {
+    public Node lowestCommonAncestor(Node root, int p, int q) {
+        if(root==null || root.data == p || root.data == q){
+            return root;
+        }
+
+        Node leftLca = lowestCommonAncestor(root.left, p, q);
+        Node rightLca = lowestCommonAncestor(root.right, p, q);
+
+        if(rightLca == null){
+            return leftLca;
+        }
+
+        if(leftLca == null){
+            return rightLca;
+        }
+
+        return root;
+    }
+    
+    public static int lcaDist(Node root, int n){
+        if(root==null){
+            return -1;
+        }
+        
+        if(root.data==n){
+            return 0;
+        }
+        
+        int leftDist =lcaDist (root.left, n);
+        int rightDist =lcaDist(root.right, n);
+        
+        if(leftDist==-1 && rightDist==-1){
+            return -1;
+        }else if(leftDist==-1){
+            return rightDist+1;
+        }else{
+            return leftDist+1;
+        }
+    }
+    
+    
+    public int findDist(Node root, int a, int b) {
+        // code here
+        
+        Node lca = lowestCommonAncestor(root, a, b);
+        int dist1= lcaDist(lca,a);
+        int dist2= lcaDist(lca, b);
+        return dist1+dist2;
+        
+    }
+}
