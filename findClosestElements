@@ -1,0 +1,35 @@
+class Solution {
+    public static class Point implements Comparable<Point>{
+        int diff;
+        int num;
+
+        Point(int diff, int num){
+            this.diff = diff;
+            this.num = num;
+        }
+
+        @Override
+        public int compareTo(Point p2){
+            if(this.diff==p2.diff){
+                return this.num-p2.num;
+            }
+            return this.diff - p2.diff; 
+        }
+    } 
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        PriorityQueue<Point> pq = new PriorityQueue<>();
+        List<Integer> ls = new ArrayList<>();
+
+        for(int i=0; i<arr.length; i++){
+            int diff = Math.abs(arr[i] - x);
+            pq.add(new Point(diff, arr[i]));
+        }
+
+        for (int i = 0; i < k; i++) {
+            ls.add(pq.remove().num);
+        }
+
+        Collections.sort(ls);
+        return ls;
+    }
+}
