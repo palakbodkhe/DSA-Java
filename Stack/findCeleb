@@ -1,0 +1,45 @@
+Stack<Integer> st = new Stack<>();
+
+for (int i = 0; i < n; i++)
+    st.push(i);
+
+while (st.size() > 1) {
+    int a = st.pop();
+    int b = st.pop();
+
+    boolean aFlag = true, bFlag = true;
+
+    if (arr[a][b] == 1)
+        aFlag = false;      // a knows b -> a can't be celebrity
+    else
+        bFlag = false;      // a doesn't know b -> b can't be celebrity
+
+    if (arr[b][a] == 1)
+        bFlag = false;      // b knows a -> b can't be celebrity
+    else
+        aFlag = false;      // b doesn't know a -> a can't be celebrity
+
+    if (aFlag) st.push(a);
+    if (bFlag) st.push(b);
+}
+
+if (st.size() == 0)
+    return -1;
+
+int celeb = st.pop();
+
+// Check row
+for (int j = 0; j < n; j++) {
+    if (j == celeb) continue;
+    if (arr[celeb][j] == 1)
+        return -1;
+}
+
+// Check column
+for (int i = 0; i < n; i++) {
+    if (i == celeb) continue;
+    if (arr[i][celeb] == 0)
+        return -1;
+}
+
+return celeb;
