@@ -1,0 +1,51 @@
+/* Structure of a doubly link list node
+class Node {
+    int data;
+    Node prev, next;
+    Node(int x) {
+        data = x;
+        prev = null;
+        next = null;
+    }
+}*/
+
+class Solution {
+    public Node rotateDLL(Node head, int k) {
+
+        if (head == null || head.next == null || k == 0)
+            return head;
+
+        // Find length
+        int n = 1;
+        Node tail = head;
+
+        while (tail.next != null) {
+            tail = tail.next;
+            n++;
+        }
+
+        k %= n;
+
+        if (k == 0)
+            return head;
+
+        // Reach kth node
+        Node curr = head;
+
+        for (int i = 1; i < k; i++) {
+            curr = curr.next;
+        }
+
+        Node newHead = curr.next;
+
+        // Break
+        curr.next = null;
+        newHead.prev = null;
+
+        // Join tail to old head
+        tail.next = head;
+        head.prev = tail;
+
+        return newHead;
+    }
+}
