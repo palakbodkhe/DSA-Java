@@ -1,0 +1,27 @@
+class Solution {
+    Node removeDuplicates(Node headRef) {
+
+        if (headRef == null) return null;
+
+        Node curr = headRef;
+
+        while (curr != null && curr.next != null) {
+
+            Node fwd = curr.next;
+
+            while (fwd != null && curr.data == fwd.data) {
+                fwd = fwd.next;
+            }
+
+            curr.next = fwd;
+
+            if (fwd != null) {
+                fwd.prev = curr;
+            }
+
+            curr = fwd;
+        }
+
+        return headRef;
+    }
+}
